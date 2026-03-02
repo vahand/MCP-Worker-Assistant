@@ -8,13 +8,13 @@ from agents import create_calendar_agent, create_tasks_agent, create_orchestrato
 
 # Apply nest_asyncio to allow nested event loops
 nest_asyncio.apply()
-from tool_factory import (
-    make_calendar_tool,
+from tools.tool_factory import (
     make_tasks_tool,
     make_weekend_tasks_tool,
     make_current_work_tool,
     make_good_morning_tool
 )
+from tools.calendar_tools import make_calendar_tool, make_calendar_names_tool
 
 
 PATH_MCP_SERVER = "/Users/Vahan/Documents/Development/AI/MCP/apple-daily-planning/server.py"
@@ -40,6 +40,7 @@ async def main():
             print("Creating tools...")
             # Create MCP tools
             calendar_tool = make_calendar_tool(session)
+            calendar_names_tool = make_calendar_names_tool(session)
             tasks_tool = make_tasks_tool(session)
             weekend_tasks_tool = make_weekend_tasks_tool(session)
             current_work_tool = make_current_work_tool(session)
@@ -48,7 +49,7 @@ async def main():
 
             # Create sub-agents
             print("Creating sub-agents...")
-            calendar_agent = create_calendar_agent(calendar_tool, llm)
+            calendar_agent = create_calendar_agent(calendar_tool, calendar_names_tool, llm)
             tasks_agent = create_tasks_agent(tasks_tool, weekend_tasks_tool, llm)
             print("Sub-agents created")
 

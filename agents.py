@@ -7,23 +7,24 @@ class AgentQuery(BaseModel):
     query: str = Field(description="The question or request to send to this agent")
 
 
-def create_calendar_agent(calendar_tool, llm):
+def create_calendar_agent(calendar_tool, calendar_names_tool, llm):
     """Create a sub-agent specialized in calendar and scheduling."""
 
     system_prompt = """You are a calendar specialist agent. You have access to the user's calendar.
 
 Your job:
-- Fetch and summarize today's calendar events
+- Fetch and summarize today's calendar events using calendar_today tool
+- Fetch calendar names using calendar_names tool
 - Identify free time slots
 - Report on scheduled meetings and commitments
 
 ALWAYS use the calendar_today tool to get real data. NEVER make up events."""
 
-    llm_with_tools = llm.bind_tools([calendar_tool])
+    llm_with_tools = llm.bind_tools([calendar_tool, calendar_names_tool])
 
     agent = create_agent(
         model=llm_with_tools,
-        tools=[calendar_tool],
+        tools=[calendar_tool, calendar_names_tool],
         system_prompt=system_prompt,
         name="calendar_agent"
     )
