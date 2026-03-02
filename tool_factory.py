@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 
 class CalendarTodayTool(BaseTool):
     name: str = "calendar_today"
-    description: str = "Get today's calendar events. Takes a comma-separated string of calendar names (e.g., 'Personal, EPITECH, HFT'). Returns a list of events with title, start_date, and end_date in JSON format."
+    description: str = "Get today's calendar events. Takes calendar names as parameter separated by comma. (e.g., 'Personal, EPITECH, HFT'). Returns a list of events with title, start_date, and end_date in JSON format."
     session: object
 
     def _run(self, calendar_names: str = "Personal, EPITECH, HFT") -> str:
@@ -33,12 +33,22 @@ class CalendarTodayTool(BaseTool):
             calendar_names = ", ".join(calendar_names)
 
         names_list = [name.strip() for name in calendar_names.split(',')]
+        print(f"[DEBUG] CalendarTool ASYNC called with calendar_names: {names_list}")
+        print(f"[DEBUG] About to call MCP server (async)...")
         result = await self.session.call_tool("calendar_today", {"calendar_names": names_list})
+        print(f"[DEBUG] MCP server returned (async)")
         if hasattr(result, 'content') and len(result.content) > 0:
-            content = result.content[0]
-            if hasattr(content, 'text'):
-                return content.text
+            all_events = []
+            print(f"[DEBUG] Result has content with length: {len(result.content)}")
+            for content in result.content:
+                if hasattr(content, 'text'):
+                    all_events.append(content.text)
+            if all_events:
+                print(f"[DEBUG] CalendarTool returning (async): {all_events[0][:200]}...")
+                return "\n".join(all_events)
+            print(f"[DEBUG] CalendarTool returning (no text, async): {str(content)[:200]}...")
             return str(content)
+        print(f"[DEBUG] CalendarTool returning (no content, async): {str(result)[:200]}...")
         return str(result)
 
 

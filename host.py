@@ -4,7 +4,7 @@ from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 from langchain_ollama import ChatOllama
 
-from agents import create_chatbot_agent
+from agents import create_calendar_agent, create_tasks_agent, create_orchestrator
 
 # Apply nest_asyncio to allow nested event loops
 nest_asyncio.apply()
@@ -38,24 +38,25 @@ async def main():
             print("MCP session initialized")
 
             print("Creating tools...")
-            # Create all available tools
+            # Create MCP tools
             calendar_tool = make_calendar_tool(session)
             tasks_tool = make_tasks_tool(session)
             weekend_tasks_tool = make_weekend_tasks_tool(session)
             current_work_tool = make_current_work_tool(session)
             good_morning_tool = make_good_morning_tool(session)
-
-            all_tools = [
-                calendar_tool,
-                tasks_tool,
-                weekend_tasks_tool,
-                current_work_tool,
-                good_morning_tool
-            ]
             print("Tools created")
 
-            # Create the chatbot agent
-            agent = create_chatbot_agent(all_tools, llm)
+            # Create sub-agents
+            print("Creating sub-agents...")
+            calendar_agent = create_calendar_agent(calendar_tool, llm)
+            tasks_agent = create_tasks_agent(tasks_tool, weekend_tasks_tool, llm)
+            print("Sub-agents created")
+
+            # Create orchestrator with sub-agents + utility tools
+            print("Creating orchestrator...")
+            utility_tools = [good_morning_tool, current_work_tool]
+            agent = create_orchestrator(calendar_agent, tasks_agent, utility_tools, llm)
+            print("Orchestrator ready")
 
             print("\n=== AI Assistant Ready ===")
             print("I can help you with your calendar and tasks.")

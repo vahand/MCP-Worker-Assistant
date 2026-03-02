@@ -23,49 +23,49 @@ async def test_tools():
             await session.initialize()
             print("Session initialized\n")
 
-            # Test 1: Say Good Morning
-            print("=" * 50)
-            print("Test 1: say_good_morning")
-            print("=" * 50)
-            try:
-                result = await session.call_tool("say_good_morning", {})
-                print(f"Result type: {type(result)}")
-                print(f"Has content: {hasattr(result, 'content')}")
-                if hasattr(result, 'content'):
-                    print(f"Content length: {len(result.content)}")
-                    if len(result.content) > 0:
-                        content = result.content[0]
-                        print(f"Content[0] type: {type(content)}")
-                        print(f"Has text: {hasattr(content, 'text')}")
-                        if hasattr(content, 'text'):
-                            print(f"Text: {content.text}")
-                        else:
-                            print(f"Content: {content}")
-                print()
-            except Exception as e:
-                print(f"Error: {e}\n")
+            # # Test 1: Say Good Morning
+            # print("=" * 50)
+            # print("Test 1: say_good_morning")
+            # print("=" * 50)
+            # try:
+            #     result = await session.call_tool("say_good_morning", {})
+            #     print(f"Result type: {type(result)}")
+            #     print(f"Has content: {hasattr(result, 'content')}")
+            #     if hasattr(result, 'content'):
+            #         print(f"Content length: {len(result.content)}")
+            #         if len(result.content) > 0:
+            #             content = result.content[0]
+            #             print(f"Content[0] type: {type(content)}")
+            #             print(f"Has text: {hasattr(content, 'text')}")
+            #             if hasattr(content, 'text'):
+            #                 print(f"Text: {content.text}")
+            #             else:
+            #                 print(f"Content: {content}")
+            #     print()
+            # except Exception as e:
+            #     print(f"Error: {e}\n")
 
-            # Test 2: Open Tasks
-            print("=" * 50)
-            print("Test 2: open_for_today_tasks")
-            print("=" * 50)
-            try:
-                result = await session.call_tool("open_for_today_tasks", {})
-                print(f"Result type: {type(result)}")
-                print(f"Has content: {hasattr(result, 'content')}")
-                if hasattr(result, 'content'):
-                    print(f"Content length: {len(result.content)}")
-                    if len(result.content) > 0:
-                        content = result.content[0]
-                        print(f"Content[0] type: {type(content)}")
-                        print(f"Has text: {hasattr(content, 'text')}")
-                        if hasattr(content, 'text'):
-                            print(f"Text: {content.text}")
-                        else:
-                            print(f"Content: {content}")
-                print()
-            except Exception as e:
-                print(f"Error: {e}\n")
+            # # Test 2: Open Tasks
+            # print("=" * 50)
+            # print("Test 2: open_for_today_tasks")
+            # print("=" * 50)
+            # try:
+            #     result = await session.call_tool("open_for_today_tasks", {})
+            #     print(f"Result type: {type(result)}")
+            #     print(f"Has content: {hasattr(result, 'content')}")
+            #     if hasattr(result, 'content'):
+            #         print(f"Content length: {len(result.content)}")
+            #         if len(result.content) > 0:
+            #             content = result.content[0]
+            #             print(f"Content[0] type: {type(content)}")
+            #             print(f"Has text: {hasattr(content, 'text')}")
+            #             if hasattr(content, 'text'):
+            #                 print(f"Text: {content.text}")
+            #             else:
+            #                 print(f"Content: {content}")
+            #     print()
+            # except Exception as e:
+            #     print(f"Error: {e}\n")
 
             # Test 3: Calendar
             print("=" * 50)
@@ -79,6 +79,7 @@ async def test_tools():
                 print(f"Has content: {hasattr(result, 'content')}")
                 if hasattr(result, 'content'):
                     print(f"Content length: {len(result.content)}")
+                    print(f"Content: {result.content}")
                     if len(result.content) > 0:
                         content = result.content[0]
                         print(f"Content[0] type: {type(content)}")
