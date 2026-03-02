@@ -10,10 +10,10 @@ end tell"""
     print("Calendar names script output:\n", result.stdout)  # Debugging line
     return [name.strip() for name in result.stdout.strip().split(",") if name.strip()]
 
-def get_today_calendar(calendar_names=["Personal", "Work"]):
+def get_today_calendar(calendar_names=["Personal"]):
     script = f"""tell application "Calendar"
     set output to ""
-    set calendarNames to {{{", ".join(f'"{name}"' for name in calendar_names)}}}
+    set calendarNames to {{{",".join(f'"{name}"' for name in calendar_names)}}}
 
     set todayDate to (current date)
     set todayStart to todayDate
