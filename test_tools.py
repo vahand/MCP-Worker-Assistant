@@ -73,7 +73,7 @@ async def test_tools():
             print("=" * 50)
             try:
                 result = await session.call_tool("calendar_today", {
-                    "calendar_names": ["Calendrier", "EPITECH", "HFT"]
+                    "calendar_names": ["Personal", "EPITECH", "HFT"]
                 })
                 print(f"Result type: {type(result)}")
                 print(f"Has content: {hasattr(result, 'content')}")

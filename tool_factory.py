@@ -7,10 +7,10 @@ from pydantic import BaseModel, Field
 
 class CalendarTodayTool(BaseTool):
     name: str = "calendar_today"
-    description: str = "Get today's calendar events. Takes a comma-separated string of calendar names (e.g., 'Calendrier, EPITECH, HFT'). Returns a list of events with title, start_date, and end_date."
+    description: str = "Get today's calendar events. Takes a comma-separated string of calendar names (e.g., 'Personal, EPITECH, HFT'). Returns a list of events with title, start_date, and end_date in JSON format."
     session: object
 
-    def _run(self, calendar_names: str = "Calendrier, EPITECH, HFT") -> str:
+    def _run(self, calendar_names: str = "Personal, EPITECH, HFT") -> str:
         async def _call():
             print(f"[DEBUG] CalendarTool called with: {calendar_names}")
             names_list = [name.strip() for name in calendar_names.split(',')]
@@ -28,7 +28,7 @@ class CalendarTodayTool(BaseTool):
 
     async def _arun(self, **kwargs) -> str:
         # Extract calendar_names if provided, otherwise use default
-        calendar_names = kwargs.get('calendar_names', "Calendrier, EPITECH, HFT")
+        calendar_names = kwargs.get('calendar_names', "Personal, EPITECH, HFT")
         if isinstance(calendar_names, list):
             calendar_names = ", ".join(calendar_names)
 
