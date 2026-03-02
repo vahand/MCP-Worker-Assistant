@@ -10,15 +10,28 @@ end tell"""
     print("Calendar names script output:\n", result.stdout)  # Debugging line
     return [name.strip() for name in result.stdout.strip().split(",") if name.strip()]
 
-def get_today_calendar(calendar_names=["Personal", "EPITECH", "HFT"]):
+def get_today_calendar(calendar_names=["Personal", "Work"]):
     script = f"""tell application "Calendar"
     set output to ""
     set calendarNames to {{{", ".join(f'"{name}"' for name in calendar_names)}}}
+
+    set todayDate to (current date)
+    set todayStart to todayDate
+    set hours of todayStart to 0
+    set minutes of todayStart to 0
+    set seconds of todayStart to 0
+    set todayEnd to todayStart + (1 * days)
+
     repeat with calName in calendarNames
-        set todayEvents to events of calendar calName whose start date ≥ (current date) and start date < ((current date) + 1 * days)
-        repeat with e in todayEvents
-            set output to output & summary of e & " | " & (start date of e as string) & " | " & (end date of e as string) & "\n"
-        end repeat
+        try
+            set calRef to calendar calName
+            set todayEvents to events of calRef whose start date ≥ todayStart and start date < todayEnd
+            repeat with e in todayEvents
+                set output to output & summary of e & " | " & (start date of e as string) & " | " & (end date of e as string) & "\n"
+            end repeat
+        on error
+            -- Skip calendar if it doesn't exist or has access issues
+        end try
     end repeat
     return output
 end tell"""

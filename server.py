@@ -5,7 +5,7 @@ from apple_scripts import get_calendar_names, get_today_calendar, get_open_remin
 mcp = FastMCP("apple-daily-planning")
 
 @mcp.tool()
-def calendar_today(calendar_names: list[str] = ["Personal", "EPITECH", "HFT"]) -> list[dict]:
+def calendar_today(calendar_names: list[str] = ["Personal", "Work"]) -> list[dict]:
     """Return today's events of the specified calendars"""
     output = get_today_calendar(calendar_names)
     events = []
