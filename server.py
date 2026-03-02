@@ -1,6 +1,6 @@
 from mcp.server import FastMCP
 
-from apple_scripts import get_today_calendar, get_open_reminders, get_note_content
+from apple_scripts import get_calendar_names, get_today_calendar, get_open_reminders, get_note_content
 
 mcp = FastMCP("apple-daily-planning")
 
@@ -14,6 +14,11 @@ def calendar_today(calendar_names: list[str] = ["Personal", "EPITECH", "HFT"]) -
             title, start_date, end_date = line.split(" | ", 2)
             events.append({"title": title, "start_date": start_date, "end_date": end_date})
     return events
+
+@mcp.tool()
+def calendar_names() -> list[str]:
+    """Return the names of all calendars"""
+    return get_calendar_names()
 
 @mcp.tool()
 def open_for_today_tasks() -> str:

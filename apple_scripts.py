@@ -1,5 +1,15 @@
 import subprocess
 
+
+def get_calendar_names():
+    script = """tell application "Calendar"
+    set calendarNames to name of every calendar
+    return calendarNames
+end tell"""
+    result = subprocess.run(["osascript", "-e", script], capture_output=True, text=True)
+    print("Calendar names script output:\n", result.stdout)  # Debugging line
+    return [name.strip() for name in result.stdout.strip().split(",") if name.strip()]
+
 def get_today_calendar(calendar_names=["Personal", "EPITECH", "HFT"]):
     script = f"""tell application "Calendar"
     set output to ""
@@ -43,6 +53,8 @@ end tell"""
     print("Note script output:\n", result.stdout)  # Debugging line
     return result.stdout.strip()
 
-get_today_calendar(["HFT", "EPITECH", "Personal"])
-# get_open_reminders()
-# get_note_content("👨🏻‍💻 Current Work")
+# Example usage:
+calendar_names = get_calendar_names()
+get_today_calendar(calendar_names)
+get_open_reminders()
+get_note_content("👨🏻‍💻 Current Work")
