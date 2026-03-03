@@ -10,16 +10,16 @@ from tools.calendar_tools import make_calendar_tool, make_calendar_names_tool
 from tools.tasks_tools import make_tasks_tool, make_weekend_tasks_tool
 from tools.notes_tools import make_current_work_tool
 from tools.simple_tools import make_good_morning_tool
-from config import PATH_MCP_SERVER, DEBUG
+from config import PATH_MCP_SERVER, DEBUG, MODEL_NAME, TEMPERATURE, NUM_PREDICT
 
 
 # Apply nest_asyncio to allow nested event loops
 nest_asyncio.apply()
 
 llm = ChatOllama(
-    model = "qwen2.5:7b",
-    temperature = 0.2,  # Lower temperature for more reliable tool usage
-    num_predict = 512  # Limit response length
+    model = MODEL_NAME,
+    temperature = TEMPERATURE,  # Lower temperature for more reliable tool usage
+    num_predict = NUM_PREDICT  # Limit response length
 )
 
 
