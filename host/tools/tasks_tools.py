@@ -71,60 +71,6 @@ class WeekendTasksTool(BaseTool):
         return str(result)
 
 
-class CurrentWorkNoteTool(BaseTool):
-    name: str = "current_work_note"
-    description: str = "Get the content of the 'Current Work' note. No input needed."
-    session: object
-
-    def _run(self, **kwargs) -> str:
-        async def _call():
-            result = await self.session.call_tool("current_work_note", {})
-            if hasattr(result, 'content') and len(result.content) > 0:
-                content = result.content[0]
-                if hasattr(content, 'text'):
-                    return content.text
-                return str(content)
-            return str(result)
-        loop = asyncio.get_event_loop()
-        return loop.run_until_complete(_call())
-
-    async def _arun(self, **kwargs) -> str:
-        result = await self.session.call_tool("current_work_note", {})
-        if hasattr(result, 'content') and len(result.content) > 0:
-            content = result.content[0]
-            if hasattr(content, 'text'):
-                return content.text
-            return str(content)
-        return str(result)
-
-
-class GoodMorningTool(BaseTool):
-    name: str = "say_good_morning"
-    description: str = "Get a good morning message. No input needed."
-    session: object
-
-    def _run(self, **kwargs) -> str:
-        async def _call():
-            result = await self.session.call_tool("say_good_morning", {})
-            if hasattr(result, 'content') and len(result.content) > 0:
-                content = result.content[0]
-                if hasattr(content, 'text'):
-                    return content.text
-                return str(content)
-            return str(result)
-        loop = asyncio.get_event_loop()
-        return loop.run_until_complete(_call())
-
-    async def _arun(self, **kwargs) -> str:
-        result = await self.session.call_tool("say_good_morning", {})
-        if hasattr(result, 'content') and len(result.content) > 0:
-            content = result.content[0]
-            if hasattr(content, 'text'):
-                return content.text
-            return str(content)
-        return str(result)
-
-
 
 def make_tasks_tool(session):
     """Create tasks tool"""
@@ -134,13 +80,3 @@ def make_tasks_tool(session):
 def make_weekend_tasks_tool(session):
     """Create weekend tasks tool"""
     return WeekendTasksTool(session=session)
-
-
-def make_current_work_tool(session):
-    """Create current work note tool"""
-    return CurrentWorkNoteTool(session=session)
-
-
-def make_good_morning_tool(session):
-    """Create good morning tool"""
-    return GoodMorningTool(session=session)

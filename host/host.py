@@ -8,13 +8,10 @@ from agents.agents import create_calendar_agent, create_tasks_agent, create_orch
 
 # Apply nest_asyncio to allow nested event loops
 nest_asyncio.apply()
-from tools.tool_factory import (
-    make_tasks_tool,
-    make_weekend_tasks_tool,
-    make_current_work_tool,
-    make_good_morning_tool
-)
 from tools.calendar_tools import make_calendar_tool, make_calendar_names_tool
+from tools.tasks_tools import make_tasks_tool, make_weekend_tasks_tool
+from tools.notes_tools import make_current_work_tool
+from tools.simple_tools import make_good_morning_tool
 
 
 PATH_MCP_SERVER = "/Users/Vahan/Documents/Development/AI/MCP/apple-daily-planning/server/server.py"
