@@ -14,14 +14,17 @@ This project is a simple multi-agents assistant for planning tasks. It uses a MC
 
 ### Presentation
 The MCP Host is responsible for handling the communication with the MCP Server (providing tools for retrieving calendar and tasks data) and processing user queries.
-It uses a multi-agent approach using LangChain, where different agents are responsible for different aspects of the planning process (__**calendar_specialist**__ agent, __**tasks_specialist**__ agent). Each agent can call specific tools to retrieve the necessary data from the MCP Server and use that data to generate responses for the user. The orchestrator agent is responsible for coordinating the interactions between the specialist agents and ensuring that the user's query is addressed comprehensively. It can also call directly some tools which are not handled by specialist agents (__**Notes tools**__).
+
+It uses a multi-agent approach using LangChain, where different agents are responsible for different aspects of the planning process (__**calendar_specialist**__ agent, __**tasks_specialist**__ agent). Each agent can call specific tools to retrieve the necessary data from the MCP Server and use that data to generate responses for the user. \
+The orchestrator agent is responsible for coordinating the interactions between the specialist agents and ensuring that the user's query is addressed comprehensively. It can also call directly some tools which are not handled by specialist agents (__**Notes tools**__).
+
 LLM interactions are managed through Ollama, which runs the LLM locally to keep the data private and secure. The MCP Host is designed to be modular and extensible, allowing for easy addition of new agents and tools as needed.
 
 ## MCP Server
 ### Stack
 [![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff)](#)
 [![FastMCP](https://img.shields.io/badge/FastMCP-009688?logo=fastapi&logoColor=fff)](#)
-[![AppleScript](https://img.shields.io/badge/AppleScript-000000?logo=applescript&logoColor=fff)](#)
+[![macOS osascript](https://img.shields.io/badge/AppleScript-000000?logo=apple&logoColor=F0F0F0)](#)
 
 ### Presentation
 The MCP server is designed to work on macOS. It exposes tools for retrieving calendar events, tasks, and notes data.
