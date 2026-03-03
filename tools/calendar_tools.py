@@ -33,7 +33,7 @@ class CalendarNamesTool(BaseTool):
 
 class CalendarTodayTool(BaseTool):
     name: str = "calendar_today"
-    description: str = "Get today's events of calendar names passed as a comma-separated string for paramater 'calendar_names' (e.g.: 'Personal,Work'). Returns a list of events with title, start_date, and end_date in JSON format."
+    description: str = "Get today's events of calendar names passed as a comma-separated string for paramater 'calendar_names' (e.g.: 'Personal,Work'). Returns a list of events with title, start_date, end_date and calendar_name in JSON format."
     session: object
 
     def _run(self, calendar_names: str = "Personal") -> str:

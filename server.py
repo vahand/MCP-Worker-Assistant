@@ -11,8 +11,8 @@ def calendar_today(calendar_names: list[str] = ["Personal"]) -> list[dict]:
     events = []
     for line in output.splitlines():
         if " | " in line:
-            title, start_date, end_date = line.split(" | ", 2)
-            events.append({"title": title, "start_date": start_date, "end_date": end_date})
+            title, start_date, end_date, calendar_name = line.split(" | ", 3)
+            events.append({"title": title, "start_date": start_date, "end_date": end_date, "calendar_name": calendar_name})
     return events
 
 @mcp.tool()

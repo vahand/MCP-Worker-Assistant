@@ -27,7 +27,7 @@ def get_today_calendar(calendar_names=["Personal"]):
             set calRef to calendar calName
             set todayEvents to events of calRef whose start date ≥ todayStart and start date < todayEnd
             repeat with e in todayEvents
-                set output to output & summary of e & " | " & (start date of e as string) & " | " & (end date of e as string) & "\n"
+                set output to output & summary of e & " | " & (start date of e as string) & " | " & (end date of e as string) & " | " & (calName) & "\n"
             end repeat
         on error
             -- Skip calendar if it doesn't exist or has access issues
