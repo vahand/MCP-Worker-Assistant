@@ -4,7 +4,7 @@ from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 from langchain_ollama import ChatOllama
 
-from agents import create_calendar_agent, create_tasks_agent, create_orchestrator
+from agents.agents import create_calendar_agent, create_tasks_agent, create_orchestrator
 
 # Apply nest_asyncio to allow nested event loops
 nest_asyncio.apply()
