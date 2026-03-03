@@ -5,6 +5,7 @@ from mcp.client.stdio import stdio_client
 from langchain_ollama import ChatOllama
 
 from agents.agents import create_calendar_agent, create_tasks_agent, create_orchestrator
+from debug.debug import debug_response
 
 # Apply nest_asyncio to allow nested event loops
 nest_asyncio.apply()
@@ -15,12 +16,14 @@ from tools.simple_tools import make_good_morning_tool
 
 
 PATH_MCP_SERVER = "/Users/Vahan/Documents/Development/AI/MCP/apple-daily-planning/server/server.py"
+DEBUG = True
 
 llm = ChatOllama(
-    model="qwen2.5:7b",  # Qwen2.5 has excellent tool calling support
+    model="qwen2.5:7b",
     temperature=0.2,  # Lower temperature for more reliable tool usage
     num_predict=512  # Limit response length
 )
+
 
 async def main():
     params = StdioServerParameters(
@@ -34,8 +37,8 @@ async def main():
             await session.initialize()
             print("MCP session initialized")
 
-            print("Creating tools...")
             # Create MCP tools
+            print("Creating tools...")
             calendar_tool = make_calendar_tool(session)
             calendar_names_tool = make_calendar_names_tool(session)
             tasks_tool = make_tasks_tool(session)
@@ -56,6 +59,7 @@ async def main():
             agent = create_orchestrator(calendar_agent, tasks_agent, utility_tools, llm)
             print("Orchestrator ready")
 
+            # Welcome message
             print("\n=== AI Assistant Ready ===")
             print("I can help you with your calendar and tasks.")
             print("Type 'exit' or 'quit' to end the conversation.\n")
@@ -72,26 +76,14 @@ async def main():
                         print("\nGoodbye!")
                         break
 
-                    # Invoke the agent asynchronously to use _arun methods
-                    print("Processing your request...")
-                    print("[DEBUG] Invoking agent...")
+                    # Invoke the orchestrator agent asynchronously (use _arun methods)
                     response = await agent.ainvoke(
                         {"messages": [{"role": "user", "content": user_input}]}
                     )
-                    print(f"[DEBUG] Agent response type: {type(response)}")
-                    print(f"[DEBUG] Agent response keys: {response.keys() if isinstance(response, dict) else 'N/A'}")
 
-                    # Debug: show message flow
-                    if "messages" in response:
-                        print(f"[DEBUG] Number of messages: {len(response['messages'])}")
-                        for i, msg in enumerate(response['messages']):
-                            if hasattr(msg, 'type'):
-                                msg_type = msg.type
-                                # Check if it's a tool call message
-                                if hasattr(msg, 'tool_calls') and msg.tool_calls:
-                                    print(f"[DEBUG] Message {i}: type={msg_type}, has tool_calls")
-                                else:
-                                    print(f"[DEBUG] Message {i}: type={msg_type}")
+                    # Debugging response and message flow
+                    if DEBUG:
+                        debug_response(response)
 
                     # Extract and display the response
                     if "messages" in response:
