@@ -8,7 +8,7 @@ from mcp.client.stdio import stdio_client
 
 nest_asyncio.apply()
 
-PATH_MCP_SERVER = "/Users/Vahan/Documents/Development/AI/MCP/apple-daily-planning/server.py"
+PATH_MCP_SERVER = "/Users/Vahan/Documents/Development/AI/MCP/apple-daily-planning/server/server.py"
 
 async def test_tools():
     """Test calling MCP tools directly."""

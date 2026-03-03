@@ -17,7 +17,7 @@ from tools.tool_factory import (
 from tools.calendar_tools import make_calendar_tool, make_calendar_names_tool
 
 
-PATH_MCP_SERVER = "/Users/Vahan/Documents/Development/AI/MCP/apple-daily-planning/server.py"
+PATH_MCP_SERVER = "/Users/Vahan/Documents/Development/AI/MCP/apple-daily-planning/server/server.py"
 
 llm = ChatOllama(
     model="qwen2.5:7b",  # Qwen2.5 has excellent tool calling support
