@@ -23,10 +23,10 @@ ALWAYS use the calendar_today tool to get real data. NEVER make up events."""
     llm_with_tools = llm.bind_tools([calendar_tool, calendar_names_tool])
 
     agent = create_agent(
-        model=llm_with_tools,
-        tools=[calendar_tool, calendar_names_tool],
-        system_prompt=system_prompt,
-        name="calendar_agent"
+        model = llm_with_tools,
+        tools = [calendar_tool, calendar_names_tool],
+        system_prompt = system_prompt,
+        name = "calendar_agent"
     )
 
     return agent
@@ -49,10 +49,10 @@ ALWAYS use tools to get real data. NEVER make up tasks."""
     llm_with_tools = llm.bind_tools(tools)
 
     agent = create_agent(
-        model=llm_with_tools,
-        tools=tools,
-        system_prompt=system_prompt,
-        name="tasks_agent"
+        model = llm_with_tools,
+        tools = tools,
+        system_prompt = system_prompt,
+        name = "tasks_agent"
     )
 
     return agent
@@ -70,15 +70,15 @@ def create_orchestrator(calendar_agent, tasks_agent, utility_tools, llm):
 
     # Wrap sub-agents as tools
     calendar_agent_tool = calendar_agent.as_tool(
-        args_schema=AgentQuery,
-        name="calendar_specialist",
-        description="Delegate to the calendar specialist agent. Use this when the user asks about calendar events, meetings, schedule, or free time slots."
+        args_schema = AgentQuery,
+        name = "calendar_specialist",
+        description = "Delegate to the calendar specialist agent. Use this when the user asks about calendar events, meetings, schedule, or free time slots."
     )
 
     tasks_agent_tool = tasks_agent.as_tool(
-        args_schema=AgentQuery,
-        name="tasks_specialist",
-        description="Delegate to the tasks specialist agent. Use this when the user asks about tasks, reminders, to-dos, or things to do today or this weekend."
+        args_schema = AgentQuery,
+        name = "tasks_specialist",
+        description = "Delegate to the tasks specialist agent. Use this when the user asks about tasks, reminders, to-dos, or things to do today or this weekend."
     )
 
     # Combine sub-agent tools with utility tools
@@ -103,10 +103,10 @@ RULES:
     llm_with_tools = llm.bind_tools(all_tools)
 
     agent = create_agent(
-        model=llm_with_tools,
-        tools=all_tools,
-        system_prompt=system_prompt,
-        name="orchestrator"
+        model = llm_with_tools,
+        tools = all_tools,
+        system_prompt = system_prompt,
+        name = "orchestrator"
     )
 
     return agent

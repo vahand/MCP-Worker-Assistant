@@ -17,16 +17,16 @@ from config import PATH_MCP_SERVER, DEBUG
 nest_asyncio.apply()
 
 llm = ChatOllama(
-    model="qwen2.5:7b",
-    temperature=0.2,  # Lower temperature for more reliable tool usage
-    num_predict=512  # Limit response length
+    model = "qwen2.5:7b",
+    temperature = 0.2,  # Lower temperature for more reliable tool usage
+    num_predict = 512  # Limit response length
 )
 
 
 async def main():
     params = StdioServerParameters(
-        command="python3",
-        args=[PATH_MCP_SERVER]
+        command = "python3",
+        args = [PATH_MCP_SERVER]
     )
 
     async with stdio_client(params) as (read, write):
