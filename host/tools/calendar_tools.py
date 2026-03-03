@@ -1,6 +1,8 @@
 from langchain.tools import BaseTool
 import asyncio
 
+from host import DEBUG
+
 
 class CalendarNamesTool(BaseTool):
     name: str = "calendar_names"
@@ -9,7 +11,7 @@ class CalendarNamesTool(BaseTool):
 
     def _run(self, **kwargs) -> str:
         async def _call():
-            print(f"[DEBUG] CalendarNamesTool called")
+            print(f"[DEBUG] CalendarNamesTool called") if DEBUG else None
             result = await self.session.call_tool("calendar_names", {})
             if hasattr(result, 'content') and len(result.content) > 0:
                 content = result.content[0]
@@ -22,7 +24,7 @@ class CalendarNamesTool(BaseTool):
         return loop.run_until_complete(_call())
 
     async def _arun(self, **kwargs) -> str:
-        print(f"[DEBUG] CalendarNamesTool ASYNC called")
+        print(f"[DEBUG] CalendarNamesTool ASYNC called") if DEBUG else None
         result = await self.session.call_tool("calendar_names", {})
         if hasattr(result, 'content') and len(result.content) > 0:
             content = result.content[0]
@@ -36,45 +38,43 @@ class CalendarTodayTool(BaseTool):
     description: str = "Get today's events of calendar names passed as a comma-separated string for paramater 'calendar_names' (e.g.: 'Personal,Work'). Returns a list of events with title, start_date, end_date and calendar_name in JSON format."
     session: object
 
-    def _run(self, calendar_names: str = "Personal") -> str:
+    def _run(self, **kwargs) -> str:
         async def _call():
-            print(f"[DEBUG] CalendarTool called with: {calendar_names}")
+            calendar_names = kwargs.get('calendar_names', "Personal")
+            if isinstance(calendar_names, list):
+                calendar_names = ",".join(calendar_names)
+
             names_list = [name.strip() for name in calendar_names.split(',')]
             result = await self.session.call_tool("calendar_today", {"calendar_names": names_list})
             if hasattr(result, 'content') and len(result.content) > 0:
-                content = result.content[0]
-                if hasattr(content, 'text'):
-                    print(f"[DEBUG] CalendarTool returning: {content.text[:200]}...")
-                    return content.text
-                print(f"[DEBUG] CalendarTool returning (no text attr): {str(content)[:200]}...")
+                all_events = []
+                for content in result.content:
+                    if hasattr(content, 'text'):
+                        all_events.append(content.text)
+                if all_events:
+                    return ";".join(all_events)
                 return str(content)
-            print(f"[DEBUG] CalendarTool returning (no content): {str(result)[:200]}...")
+            return str(result)
+
         loop = asyncio.get_event_loop()
         return loop.run_until_complete(_call())
 
     async def _arun(self, **kwargs) -> str:
-        # Extract calendar_names if provided, otherwise use default
         calendar_names = kwargs.get('calendar_names', "Personal")
         if isinstance(calendar_names, list):
             calendar_names = ",".join(calendar_names)
 
         names_list = [name.strip() for name in calendar_names.split(',')]
-        print(f"[DEBUG] CalendarTool ASYNC called with calendar_names: {names_list}")
-        print(f"[DEBUG] About to call MCP server (async)...")
+        print(f"[DEBUG] CalendarTool ASYNC called with calendar_names: {names_list}") if DEBUG else None
         result = await self.session.call_tool("calendar_today", {"calendar_names": names_list})
-        print(f"[DEBUG] MCP server returned (async)")
         if hasattr(result, 'content') and len(result.content) > 0:
             all_events = []
-            print(f"[DEBUG] Result has content with length: {len(result.content)}")
             for content in result.content:
                 if hasattr(content, 'text'):
                     all_events.append(content.text)
             if all_events:
-                print(f"[DEBUG] CalendarTool returning (async): {';'.join(all_events)[:200]}...")
                 return ";".join(all_events)
-            print(f"[DEBUG] CalendarTool returning (no text, async): {str(content)[:200]}...")
             return str(content)
-        print(f"[DEBUG] CalendarTool returning (no content, async): {str(result)[:200]}...")
         return str(result)
 
 
