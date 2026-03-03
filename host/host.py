@@ -6,17 +6,15 @@ from langchain_ollama import ChatOllama
 
 from agents.agents import create_calendar_agent, create_tasks_agent, create_orchestrator
 from debug.debug import debug_response
-
-# Apply nest_asyncio to allow nested event loops
-nest_asyncio.apply()
 from tools.calendar_tools import make_calendar_tool, make_calendar_names_tool
 from tools.tasks_tools import make_tasks_tool, make_weekend_tasks_tool
 from tools.notes_tools import make_current_work_tool
 from tools.simple_tools import make_good_morning_tool
+from config import PATH_MCP_SERVER, DEBUG
 
 
-PATH_MCP_SERVER = "/Users/Vahan/Documents/Development/AI/MCP/apple-daily-planning/server/server.py"
-DEBUG = True
+# Apply nest_asyncio to allow nested event loops
+nest_asyncio.apply()
 
 llm = ChatOllama(
     model="qwen2.5:7b",

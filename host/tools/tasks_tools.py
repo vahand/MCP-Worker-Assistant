@@ -1,7 +1,7 @@
 from langchain.tools import BaseTool
 import asyncio
 
-from host import DEBUG
+from config import DEBUG
 
 
 class TasksTool(BaseTool):
