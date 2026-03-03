@@ -1,7 +1,7 @@
 from langchain.tools import BaseTool
 import asyncio
 
-from config import DEBUG
+from debug.logger import Logger
 
 
 class TasksTool(BaseTool):
@@ -11,6 +11,7 @@ class TasksTool(BaseTool):
 
     def _run(self, **kwargs) -> str:
         async def _call():
+            Logger.log("TasksTool called")
             result = await self.session.call_tool("open_for_today_tasks", {})
             if hasattr(result, 'content') and len(result.content) > 0:
                 content = result.content[0]
@@ -23,7 +24,7 @@ class TasksTool(BaseTool):
         return loop.run_until_complete(_call())
 
     async def _arun(self, **kwargs) -> str:
-        print(f"[DEBUG] TasksTool ASYNC called") if DEBUG else None
+        Logger.log("TasksTool ASYNC called")
         result = await self.session.call_tool("open_for_today_tasks", {})
         if hasattr(result, 'content') and len(result.content) > 0:
             content = result.content[0]
@@ -40,6 +41,7 @@ class WeekendTasksTool(BaseTool):
 
     def _run(self, **kwargs) -> str:
         async def _call():
+            Logger.log("WeekendTasksTool called")
             result = await self.session.call_tool("open_weekend_tasks", {})
             if hasattr(result, 'content') and len(result.content) > 0:
                 content = result.content[0]
@@ -51,6 +53,7 @@ class WeekendTasksTool(BaseTool):
         return loop.run_until_complete(_call())
 
     async def _arun(self, **kwargs) -> str:
+        Logger.log("WeekendTasksTool ASYNC called")
         result = await self.session.call_tool("open_weekend_tasks", {})
         if hasattr(result, 'content') and len(result.content) > 0:
             content = result.content[0]

@@ -5,7 +5,7 @@ from mcp.client.stdio import stdio_client
 from langchain_ollama import ChatOllama
 
 from agents.agents import create_calendar_agent, create_tasks_agent, create_orchestrator
-from debug.debug import debug_response
+from debug.logger import debug_response
 from tools.calendar_tools import make_calendar_tool, make_calendar_names_tool
 from tools.tasks_tools import make_tasks_tool, make_weekend_tasks_tool
 from tools.notes_tools import make_current_work_tool
@@ -18,8 +18,8 @@ nest_asyncio.apply()
 
 llm = ChatOllama(
     model = MODEL_NAME,
-    temperature = TEMPERATURE,  # Lower temperature for more reliable tool usage
-    num_predict = NUM_PREDICT  # Limit response length
+    temperature = TEMPERATURE,
+    num_predict = NUM_PREDICT
 )
 
 

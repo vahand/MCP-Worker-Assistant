@@ -1,7 +1,7 @@
 from langchain.tools import BaseTool
 import asyncio
 
-from config import DEBUG
+from debug.logger import Logger
 
 
 class CalendarNamesTool(BaseTool):
@@ -11,7 +11,7 @@ class CalendarNamesTool(BaseTool):
 
     def _run(self, **kwargs) -> str:
         async def _call():
-            print(f"[DEBUG] CalendarNamesTool called") if DEBUG else None
+            Logger.log("CalendarNamesTool called")
             result = await self.session.call_tool("calendar_names", {})
             if hasattr(result, 'content') and len(result.content) > 0:
                 content = result.content[0]
@@ -24,7 +24,7 @@ class CalendarNamesTool(BaseTool):
         return loop.run_until_complete(_call())
 
     async def _arun(self, **kwargs) -> str:
-        print(f"[DEBUG] CalendarNamesTool ASYNC called") if DEBUG else None
+        Logger.log("CalendarNamesTool ASYNC called")
         result = await self.session.call_tool("calendar_names", {})
         if hasattr(result, 'content') and len(result.content) > 0:
             content = result.content[0]
@@ -45,6 +45,7 @@ class CalendarTodayTool(BaseTool):
                 calendar_names = ",".join(calendar_names)
 
             names_list = [name.strip() for name in calendar_names.split(',')]
+            Logger.log(f"CalendarTodayTool called with calendar_names: {names_list}")
             result = await self.session.call_tool("calendar_today", {"calendar_names": names_list})
             if hasattr(result, 'content') and len(result.content) > 0:
                 all_events = []
@@ -65,7 +66,7 @@ class CalendarTodayTool(BaseTool):
             calendar_names = ",".join(calendar_names)
 
         names_list = [name.strip() for name in calendar_names.split(',')]
-        print(f"[DEBUG] CalendarTool ASYNC called with calendar_names: {names_list}") if DEBUG else None
+        Logger.log(f"CalendarTodayTool ASYNC called with calendar_names: {names_list}")
         result = await self.session.call_tool("calendar_today", {"calendar_names": names_list})
         if hasattr(result, 'content') and len(result.content) > 0:
             all_events = []

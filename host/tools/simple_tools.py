@@ -1,6 +1,7 @@
 from langchain.tools import BaseTool
 import asyncio
 
+from debug.logger import Logger
 
 class GoodMorningTool(BaseTool):
     name: str = "say_good_morning"
@@ -9,6 +10,7 @@ class GoodMorningTool(BaseTool):
 
     def _run(self, **kwargs) -> str:
         async def _call():
+            Logger.log("GoodMorningTool called")
             result = await self.session.call_tool("say_good_morning", {})
             if hasattr(result, 'content') and len(result.content) > 0:
                 content = result.content[0]
@@ -20,6 +22,7 @@ class GoodMorningTool(BaseTool):
         return loop.run_until_complete(_call())
 
     async def _arun(self, **kwargs) -> str:
+        Logger.log("GoodMorningTool ASYNC called")
         result = await self.session.call_tool("say_good_morning", {})
         if hasattr(result, 'content') and len(result.content) > 0:
             content = result.content[0]

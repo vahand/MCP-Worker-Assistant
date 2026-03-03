@@ -1,6 +1,7 @@
 from langchain.tools import BaseTool
 import asyncio
 
+from debug.logger import Logger
 
 class CurrentWorkNoteTool(BaseTool):
     name: str = "current_work_note"
@@ -9,6 +10,7 @@ class CurrentWorkNoteTool(BaseTool):
 
     def _run(self, **kwargs) -> str:
         async def _call():
+            Logger.log("CurrentWorkNoteTool called")
             result = await self.session.call_tool("current_work_note", {})
             if hasattr(result, 'content') and len(result.content) > 0:
                 content = result.content[0]
@@ -20,6 +22,7 @@ class CurrentWorkNoteTool(BaseTool):
         return loop.run_until_complete(_call())
 
     async def _arun(self, **kwargs) -> str:
+        Logger.log("CurrentWorkNoteTool ASYNC called")
         result = await self.session.call_tool("current_work_note", {})
         if hasattr(result, 'content') and len(result.content) > 0:
             content = result.content[0]
