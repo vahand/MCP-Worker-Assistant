@@ -13,7 +13,7 @@ This project is a simple multi-agents assistant for planning tasks. It uses a MC
 [![Ollama](https://img.shields.io/badge/Ollama-fff?logo=ollama&logoColor=000)](#)
 
 ### Presentation
-The MCP Host is responsible for handling the communication with the MCP Server (providing tools for retrieving calendar and tasks data) and processing user queries.
+The MCP Host is responsible for handling the communication with the MCP Server through a SSE (Server-Sent Events) connection (providing tools for retrieving calendar and tasks data) and processing user queries.
 
 It uses a multi-agent approach using LangChain, where different agents are responsible for different aspects of the planning process (__**calendar_specialist**__ agent, __**tasks_specialist**__ agent). Each agent can call specific tools to retrieve the necessary data from the MCP Server and use that data to generate responses for the user. \
 The orchestrator agent is responsible for coordinating the interactions between the specialist agents and ensuring that the user's query is addressed comprehensively. It can also call directly some tools which are not handled by specialist agents (__**Notes tools**__).
@@ -31,6 +31,8 @@ The MCP server is designed to work on macOS. It exposes tools for retrieving cal
 It uses AppleScript to interact with native macOS applications like Calendar, Reminders and Notes to fetch the required data.
 
 The server is built using FastMCP, which allows it to handle multiple requests concurrently and efficiently.
+
+The server listens for incoming requests on a specified port on the localhost and responds with the requested data in a format that can be easily consumed by the MCP Host.
 
 ## Get started
 ### Prerequisites
@@ -57,7 +59,12 @@ The server is built using FastMCP, which allows it to handle multiple requests c
    TEMPERATURE=0.2 # Lower temperature for more reliable tool usage
    NUM_PREDICT=512 # Limit response length
    ```
-5. Naviguate to the `host` directory and start the MCP Host (MCP Server is lauched automatically as a subprocess by the host):
+5. Navigate to the `server` directory and start the MCP Server:
+   ```bash
+   cd server
+   python3 server.py
+   ```
+6. Navigate to the `host` directory and start the MCP Host:
    ```bash
    cd host
    python3 host.py

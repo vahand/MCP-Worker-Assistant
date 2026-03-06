@@ -66,8 +66,8 @@ end tell"""
     print("Note script output:\n", result.stdout)  # Debugging line
     return result.stdout.strip()
 
-# Example usage:
-calendar_names = get_calendar_names()
-get_today_calendar(calendar_names)
-get_open_reminders()
-get_note_content("👨🏻‍💻 Current Work")
+if __name__ == "__main__":
+    calendar_names = get_calendar_names()
+    get_today_calendar(calendar_names)
+    get_open_reminders()
+    get_note_content("👨🏻‍💻 Current Work")

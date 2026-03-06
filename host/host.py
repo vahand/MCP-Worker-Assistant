@@ -2,8 +2,8 @@ import asyncio
 import nest_asyncio
 import os
 
-from mcp import ClientSession, StdioServerParameters
-from mcp.client.stdio import stdio_client
+from mcp import ClientSession
+from mcp.client.sse import sse_client
 from langchain_ollama import ChatOllama
 from dotenv import load_dotenv
 
@@ -16,7 +16,7 @@ from tools.simple_tools import make_good_morning_tool
 
 
 load_dotenv()
-PATH_MCP_SERVER = os.getenv("PATH_MCP_SERVER")
+MCP_SERVER_URL = os.getenv("MCP_SERVER_URL", "http://127.0.0.1:8000/sse")
 MODEL_NAME = os.getenv("MODEL_NAME")
 TEMPERATURE = float(os.getenv("TEMPERATURE"))
 NUM_PREDICT = int(os.getenv("NUM_PREDICT"))
@@ -34,12 +34,7 @@ llm = ChatOllama(
 
 
 async def main():
-    params = StdioServerParameters(
-        command = "python3",
-        args = [PATH_MCP_SERVER]
-    )
-
-    async with stdio_client(params) as (read, write):
+    async with sse_client(MCP_SERVER_URL) as (read, write):
         async with ClientSession(read, write) as session:
             print("Initialising MCP session...")
             await session.initialize()
