@@ -48,7 +48,15 @@ The server is built using FastMCP, which allows it to handle multiple requests c
    ```bash
    pip install -r requirements.txt
    ```
-4. Edit the `config.py` file to set the necessary configuration values.
+4. Set your environment variables in a `.env` file in the `/host` directory of the project (follow the `.env.example` file as a template):
+   ```
+   PATH_MCP_SERVER="path/to/your/server.py"
+   DEBUG=false
+   LOG=false
+   MODEL_NAME="model_name_here"
+   TEMPERATURE=0.2 # Lower temperature for more reliable tool usage
+   NUM_PREDICT=512 # Limit response length
+   ```
 5. Naviguate to the `host` directory and start the MCP Host (MCP Server is lauched automatically as a subprocess by the host):
    ```bash
    cd host

@@ -1,8 +1,11 @@
 import asyncio
 import nest_asyncio
+import os
+
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 from langchain_ollama import ChatOllama
+from dotenv import load_dotenv
 
 from agents.agents import create_calendar_agent, create_tasks_agent, create_orchestrator
 from debug.logger import debug_response
@@ -10,7 +13,14 @@ from tools.calendar_tools import make_calendar_tool, make_calendar_names_tool
 from tools.tasks_tools import make_tasks_tool, make_weekend_tasks_tool
 from tools.notes_tools import make_current_work_tool
 from tools.simple_tools import make_good_morning_tool
-from config import PATH_MCP_SERVER, DEBUG, MODEL_NAME, TEMPERATURE, NUM_PREDICT
+
+
+load_dotenv()
+PATH_MCP_SERVER = os.getenv("PATH_MCP_SERVER")
+MODEL_NAME = os.getenv("MODEL_NAME")
+TEMPERATURE = float(os.getenv("TEMPERATURE"))
+NUM_PREDICT = int(os.getenv("NUM_PREDICT"))
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
 
 # Apply nest_asyncio to allow nested event loops

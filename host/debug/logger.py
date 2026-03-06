@@ -1,5 +1,11 @@
 """Logger module for the MCP Host application for debugging purposes."""
-from config import DEBUG, LOG
+from dotenv import load_dotenv
+import os
+
+
+load_dotenv()
+LOG = os.getenv("LOG", "False").lower() == "true"
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
 class Logger:
     @staticmethod
