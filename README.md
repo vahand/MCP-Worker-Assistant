@@ -52,9 +52,9 @@ The server listens for incoming requests on a specified port on the localhost an
    ```
 4. Set your environment variables in a `.env` file in the `/host` directory of the project (follow the `.env.example` file as a template):
    ```
-   PATH_MCP_SERVER="path/to/your/server.py"
+   MCP_SERVER_URL=http://127.0.0.1:8000/sse
    DEBUG=false
-   LOG=false
+   LOG=true
    MODEL_NAME="model_name_here"
    TEMPERATURE=0.2 # Lower temperature for more reliable tool usage
    NUM_PREDICT=512 # Limit response length
