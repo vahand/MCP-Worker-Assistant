@@ -13,9 +13,9 @@ This project is a simple multi-agents assistant for planning tasks. It uses a MC
 [![Ollama](https://img.shields.io/badge/Ollama-fff?logo=ollama&logoColor=000)](#)
 
 ### Presentation
-The MCP Host is responsible for handling the communication with the MCP Server through a SSE (Server-Sent Events) connection (providing tools for retrieving calendar and tasks data) and processing user queries.
+The MCP Host is responsible for retrieving user's data from the MCP Server through a SSE (Server-Sent Events) connection and processing user queries.
 
-It uses a multi-agent approach using LangChain, where different agents are responsible for different aspects of the planning process (__**calendar_specialist**__ agent, __**tasks_specialist**__ agent). Each agent can call specific tools to retrieve the necessary data from the MCP Server and use that data to generate responses for the user. \
+It uses a multi-agent approach using LangChain, where different agents are responsible for different aspects of the planning process (__**calendar_specialist**__ agent, __**tasks_specialist**__ agent). Each agent can call specific tools exposed by the MCP server to retrieve the necessary data and use that data to generate responses for the user. \
 The orchestrator agent is responsible for coordinating the interactions between the specialist agents and ensuring that the user's query is addressed comprehensively. It can also call directly some tools which are not handled by specialist agents (__**Notes tools**__).
 
 LLM interactions are managed through Ollama, which runs the LLM locally to keep the data private and secure. The MCP Host is designed to be modular and extensible, allowing for easy addition of new agents and tools as needed.
@@ -28,7 +28,7 @@ LLM interactions are managed through Ollama, which runs the LLM locally to keep 
 
 ### Presentation
 The MCP server is designed to work on macOS. It exposes tools for retrieving calendar events, tasks, and notes data.
-It uses AppleScript to interact with native macOS applications like Calendar, Reminders and Notes to fetch the required data.
+It uses AppleScript to interact with native macOS applications like _Calendar_, _Reminders_ and _Notes_ to fetch data.
 
 The server is built using FastMCP, which allows it to handle multiple requests concurrently and efficiently.
 
@@ -59,12 +59,12 @@ The server listens for incoming requests on a specified port on the localhost an
    TEMPERATURE=0.2 # Lower temperature for more reliable tool usage
    NUM_PREDICT=512 # Limit response length
    ```
-5. Navigate to the `server` directory and start the MCP Server:
+5. Navigate to the `server/` directory and start the MCP Server:
    ```bash
    cd server
    python3 server.py
    ```
-6. Navigate to the `host` directory and start the MCP Host:
+6. Navigate to the `host/` directory and start the MCP Host:
    ```bash
    cd host
    python3 host.py
