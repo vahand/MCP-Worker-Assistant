@@ -1,6 +1,9 @@
+import os
+
 from mcp.server import FastMCP
 
 from apple_scripts import get_calendar_names, get_today_calendar, get_open_reminders, get_note_content
+
 
 mcp = FastMCP("apple-daily-planning")
 
@@ -44,4 +47,9 @@ def current_work_note() -> str:
     return get_note_content("👨🏻‍💻 Current Work")
 
 if __name__ == "__main__":
-    mcp.run()
+    try:
+        mcp.run(transport="sse")
+    except KeyboardInterrupt:
+        print("\nServer stopped by user.")
+    except Exception as e:
+        print(f"Error occurred: {e}")
