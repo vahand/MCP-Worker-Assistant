@@ -3,6 +3,7 @@ import asyncio
 
 from debug.logger import Logger
 
+
 class GoodMorningTool(BaseTool):
     name: str = "say_good_morning"
     description: str = "Get a good morning message. No input needed."
@@ -30,7 +31,6 @@ class GoodMorningTool(BaseTool):
                 return content.text
             return str(content)
         return str(result)
-
 
 
 def make_good_morning_tool(session):

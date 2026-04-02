@@ -63,7 +63,6 @@ class WeekendTasksTool(BaseTool):
         return str(result)
 
 
-
 def make_tasks_tool(session):
     """Create tasks tool"""
     return TasksTool(session=session)

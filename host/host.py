@@ -27,9 +27,9 @@ DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 nest_asyncio.apply()
 
 llm = ChatOllama(
-    model = MODEL_NAME,
-    temperature = TEMPERATURE,
-    num_predict = NUM_PREDICT
+    model=MODEL_NAME,
+    temperature=TEMPERATURE,
+    num_predict=NUM_PREDICT
 )
 
 
@@ -52,14 +52,17 @@ async def main():
 
             # Create sub-agents
             print("Creating sub-agents...")
-            calendar_agent = create_calendar_agent(calendar_tool, calendar_names_tool, llm)
-            tasks_agent = create_tasks_agent(tasks_tool, weekend_tasks_tool, llm)
+            calendar_agent = create_calendar_agent(
+                calendar_tool, calendar_names_tool, llm)
+            tasks_agent = create_tasks_agent(
+                tasks_tool, weekend_tasks_tool, llm)
             print("Sub-agents created")
 
             # Create orchestrator with sub-agents + utility tools
             print("Creating orchestrator...")
             utility_tools = [good_morning_tool, current_work_tool]
-            agent = create_orchestrator(calendar_agent, tasks_agent, utility_tools, llm)
+            agent = create_orchestrator(
+                calendar_agent, tasks_agent, utility_tools, llm)
             print("Orchestrator ready")
 
             # Welcome message

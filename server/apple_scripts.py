@@ -6,9 +6,11 @@ def get_calendar_names():
     set calendarNames to name of every calendar
     return calendarNames
 end tell"""
-    result = subprocess.run(["osascript", "-e", script], capture_output=True, text=True)
+    result = subprocess.run(["osascript", "-e", script],
+                            capture_output=True, text=True)
     print("Calendar names script output:\n", result.stdout)  # Debugging line
     return [name.strip() for name in result.stdout.strip().split(",") if name.strip()]
+
 
 def get_today_calendar(calendar_names=["Personal"]):
     script = f"""tell application "Calendar"
@@ -35,9 +37,11 @@ def get_today_calendar(calendar_names=["Personal"]):
     end repeat
     return output
 end tell"""
-    result = subprocess.run(["osascript", "-e", script], capture_output=True, text=True)
+    result = subprocess.run(["osascript", "-e", script],
+                            capture_output=True, text=True)
     print("Calendar script output:\n", result.stdout)  # Debugging line
     return result.stdout.strip()
+
 
 def get_open_reminders(list_name="For Today"):
     script = f"""tell application "Reminders"
@@ -47,9 +51,11 @@ def get_open_reminders(list_name="For Today"):
     end repeat
     return output
 end tell"""
-    result = subprocess.run(["osascript", "-e", script], capture_output=True, text=True)
+    result = subprocess.run(["osascript", "-e", script],
+                            capture_output=True, text=True)
     print("Reminders script output:\n", result.stdout)  # Debugging line
     return result.stdout.strip()
+
 
 def get_note_content(note_name):
     script = f"""tell application "Notes"
@@ -62,9 +68,11 @@ def get_note_content(note_name):
     end repeat
     return output
 end tell"""
-    result = subprocess.run(["osascript", "-e", script], capture_output=True, text=True)
+    result = subprocess.run(["osascript", "-e", script],
+                            capture_output=True, text=True)
     print("Note script output:\n", result.stdout)  # Debugging line
     return result.stdout.strip()
+
 
 if __name__ == "__main__":
     calendar_names = get_calendar_names()

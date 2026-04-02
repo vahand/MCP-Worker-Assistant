@@ -33,6 +33,7 @@ class CalendarNamesTool(BaseTool):
             return str(content)
         return str(result)
 
+
 class CalendarTodayTool(BaseTool):
     name: str = "calendar_today"
     description: str = "Get today's events of calendar names passed as a comma-separated string for paramater 'calendar_names' (e.g.: 'Personal,Work'). Returns a list of events with title, start_date, end_date and calendar_name in JSON format."
@@ -45,7 +46,8 @@ class CalendarTodayTool(BaseTool):
                 calendar_names = ",".join(calendar_names)
 
             names_list = [name.strip() for name in calendar_names.split(',')]
-            Logger.log(f"CalendarTodayTool called with calendar_names: {names_list}")
+            Logger.log(
+                f"CalendarTodayTool called with calendar_names: {names_list}")
             result = await self.session.call_tool("calendar_today", {"calendar_names": names_list})
             if hasattr(result, 'content') and len(result.content) > 0:
                 all_events = []
@@ -66,7 +68,8 @@ class CalendarTodayTool(BaseTool):
             calendar_names = ",".join(calendar_names)
 
         names_list = [name.strip() for name in calendar_names.split(',')]
-        Logger.log(f"CalendarTodayTool ASYNC called with calendar_names: {names_list}")
+        Logger.log(
+            f"CalendarTodayTool ASYNC called with calendar_names: {names_list}")
         result = await self.session.call_tool("calendar_today", {"calendar_names": names_list})
         if hasattr(result, 'content') and len(result.content) > 0:
             all_events = []

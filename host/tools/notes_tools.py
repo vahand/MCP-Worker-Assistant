@@ -3,6 +3,7 @@ import asyncio
 
 from debug.logger import Logger
 
+
 class CurrentWorkNoteTool(BaseTool):
     name: str = "current_work_note"
     description: str = "Get the content of the 'Current Work' note. No input needed."
